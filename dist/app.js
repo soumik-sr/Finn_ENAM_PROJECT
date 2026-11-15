@@ -76,13 +76,26 @@ function settings(){
 }
 function reels(){
  const rows=events.filter(r=>portfolio.includes(r.ticker)&&inWindow(r)&&!(/routine|compliance|unclassified/i.test(r.category))).sort((a,b)=>b.date.localeCompare(a.date));
- app.innerHTML=intro('WATCHLIST','List Reels','Swipe up for the next stock update.')+'<div class="toolbar">'+[['snapshot','Earnings snapshot'],['7d','Last 7 days']].map(([v,n])=>btn(n,'reel-period',v,period===v)).join('')+'<a href="#portfolio">Edit watchlist</a></div>';
+ app.innerHTML=intro('PORTFOLIO UPDATES','Watchlist','Swipe up for the next stock update.')+'<div class="toolbar">'+[['snapshot','Earnings snapshot'],['7d','Last 7 days']].map(([v,n])=>btn(n,'reel-period',v,period===v)).join('')+'<a href="#portfolio">Edit watchlist</a></div>';
  if(!rows.length){app.insertAdjacentHTML('beforeend','<p>No matching updates for this watchlist and time window.</p>');return;}
  const deck=document.createElement('section');
  deck.className='reel-deck';deck.tabIndex=0;deck.setAttribute('aria-label','Watchlist reels');
  deck.innerHTML=rows.map((r,i)=>'<article class="reel"><div class="eyebrow">'+esc(r.ticker)+' · '+esc(r.category)+' · '+(i+1)+' / '+rows.length+'</div><div><small>'+esc(r.date)+'</small><h2>'+esc(r.title)+'</h2><p>'+esc(r.summary)+'</p><p>'+esc(r.significance)+'</p></div><div class="actions">'+link(r.source,'Read filing')+'<button data-action="investigate" data-value="'+esc(r.ticker)+'">Research →</button></div></article>').join('');
- app.append(deck);
- const controls=document.createElement('div');controls.className='toolbar';controls.innerHTML='<button>↑ Previous</button><button>Next ↓</button>';app.append(controls);
+ const viewer=document.createElement('section');
+ const enter=document.createElement('button');
+ enter.textContent='Full screen';app.querySelector('.toolbar').append(enter);
+ const back=document.createElement('button');back.className='viewer-back';back.textContent='← Back';back.hidden=true;
+ viewer.append(back,deck);app.append(viewer);
+ function expand(active){
+  const anchor=[...deck.children].reduce((nearest,card)=>Math.abs(card.getBoundingClientRect().top-deck.getBoundingClientRect().top)<Math.abs(nearest.getBoundingClientRect().top-deck.getBoundingClientRect().top)?card:nearest);
+  viewer.classList.toggle('immersive',active);back.hidden=!active;
+  requestAnimationFrame(()=>{deck.scrollTop+=anchor.getBoundingClientRect().top-deck.getBoundingClientRect().top;(active?back:enter).focus({preventScroll:true});});
+ }
+ enter.onclick=()=>{expand(true);viewer.requestFullscreen?.().catch(()=>{});};
+ back.onclick=()=>{if(document.fullscreenElement===viewer)document.exitFullscreen().catch(()=>{});expand(false);};
+ viewer.onfullscreenchange=()=>{if(!document.fullscreenElement&&viewer.classList.contains('immersive'))expand(false);};
+ viewer.onkeydown=e=>{if(e.key==='Escape'&&viewer.classList.contains('immersive')){e.preventDefault();back.click();}};
+ const controls=document.createElement('div');controls.className='toolbar';controls.innerHTML='<button>↑ Previous</button><button>Next ↓</button>';viewer.append(controls);
  Array.from(controls.children).forEach((button,i)=>button.onclick=()=>deck.scrollBy({top:(i?1:-1)*deck.clientHeight,behavior:'smooth'}));
 }
 function render(){generation++;const page=location.hash.slice(1)||'briefing';document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.hash==='#'+page));({portfolio:settings,research,briefing,discover,reels}[page]||briefing)()}

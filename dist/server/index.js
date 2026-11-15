@@ -138,13 +138,26 @@ function settings(){\r
 }\r
 function reels(){\r
  const rows=events.filter(r=>portfolio.includes(r.ticker)&&inWindow(r)&&!(/routine|compliance|unclassified/i.test(r.category))).sort((a,b)=>b.date.localeCompare(a.date));\r
- app.innerHTML=intro('WATCHLIST','List Reels','Swipe up for the next stock update.')+'<div class="toolbar">'+[['snapshot','Earnings snapshot'],['7d','Last 7 days']].map(([v,n])=>btn(n,'reel-period',v,period===v)).join('')+'<a href="#portfolio">Edit watchlist</a></div>';\r
+ app.innerHTML=intro('PORTFOLIO UPDATES','Watchlist','Swipe up for the next stock update.')+'<div class="toolbar">'+[['snapshot','Earnings snapshot'],['7d','Last 7 days']].map(([v,n])=>btn(n,'reel-period',v,period===v)).join('')+'<a href="#portfolio">Edit watchlist</a></div>';\r
  if(!rows.length){app.insertAdjacentHTML('beforeend','<p>No matching updates for this watchlist and time window.</p>');return;}\r
  const deck=document.createElement('section');\r
  deck.className='reel-deck';deck.tabIndex=0;deck.setAttribute('aria-label','Watchlist reels');\r
  deck.innerHTML=rows.map((r,i)=>'<article class="reel"><div class="eyebrow">'+esc(r.ticker)+' \xB7 '+esc(r.category)+' \xB7 '+(i+1)+' / '+rows.length+'</div><div><small>'+esc(r.date)+'</small><h2>'+esc(r.title)+'</h2><p>'+esc(r.summary)+'</p><p>'+esc(r.significance)+'</p></div><div class="actions">'+link(r.source,'Read filing')+'<button data-action="investigate" data-value="'+esc(r.ticker)+'">Research \u2192</button></div></article>').join('');\r
- app.append(deck);\r
- const controls=document.createElement('div');controls.className='toolbar';controls.innerHTML='<button>\u2191 Previous</button><button>Next \u2193</button>';app.append(controls);\r
+ const viewer=document.createElement('section');\r
+ const enter=document.createElement('button');\r
+ enter.textContent='Full screen';app.querySelector('.toolbar').append(enter);\r
+ const back=document.createElement('button');back.className='viewer-back';back.textContent='\u2190 Back';back.hidden=true;\r
+ viewer.append(back,deck);app.append(viewer);\r
+ function expand(active){\r
+  const anchor=[...deck.children].reduce((nearest,card)=>Math.abs(card.getBoundingClientRect().top-deck.getBoundingClientRect().top)<Math.abs(nearest.getBoundingClientRect().top-deck.getBoundingClientRect().top)?card:nearest);\r
+  viewer.classList.toggle('immersive',active);back.hidden=!active;\r
+  requestAnimationFrame(()=>{deck.scrollTop+=anchor.getBoundingClientRect().top-deck.getBoundingClientRect().top;(active?back:enter).focus({preventScroll:true});});\r
+ }\r
+ enter.onclick=()=>{expand(true);viewer.requestFullscreen?.().catch(()=>{});};\r
+ back.onclick=()=>{if(document.fullscreenElement===viewer)document.exitFullscreen().catch(()=>{});expand(false);};\r
+ viewer.onfullscreenchange=()=>{if(!document.fullscreenElement&&viewer.classList.contains('immersive'))expand(false);};\r
+ viewer.onkeydown=e=>{if(e.key==='Escape'&&viewer.classList.contains('immersive')){e.preventDefault();back.click();}};\r
+ const controls=document.createElement('div');controls.className='toolbar';controls.innerHTML='<button>\u2191 Previous</button><button>Next \u2193</button>';viewer.append(controls);\r
  Array.from(controls.children).forEach((button,i)=>button.onclick=()=>deck.scrollBy({top:(i?1:-1)*deck.clientHeight,behavior:'smooth'}));\r
 }\r
 function render(){generation++;const page=location.hash.slice(1)||'briefing';document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.hash==='#'+page));({portfolio:settings,research,briefing,discover,reels}[page]||briefing)()}\r
@@ -535,7 +548,7 @@ reloadBriefing(true);\r
 ]\r
 `],"/index.html":["text/html",`<!doctype html>\r
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#163d32"><title>FINN | Investor briefing</title><link rel="stylesheet" href="style.css"></head><body>\r
-<header><div class="bar"><a class="brand" href="#briefing"><i>\u25A5</i> FINN</a><nav aria-label="Main navigation"><a href="#briefing">Briefing</a><a href="#reels">List Reels</a><a href="#research">Research</a><a href="#discover">Explore</a><a href="#portfolio">Portfolio</a></nav><span class="avatar" aria-label="Personal workspace">F</span></div></header>\r
+<header><div class="bar"><a class="brand" href="#briefing"><i>\u25A5</i> FINN</a><nav aria-label="Main navigation"><a href="#briefing">Briefing</a><a href="#reels">Watchlist</a><a href="#research">Research</a><a href="#discover">Explore</a><a href="#portfolio">Portfolio</a></nav><span class="avatar" aria-label="Personal workspace">F</span></div></header>\r
 <main id="app">Loading briefing\u2026</main><footer>FINN &nbsp; / &nbsp; Investor workspace</footer><script src="app.js" defer><\/script></body></html>\r
 `],"/market.json":["application/json",`[\r
   {\r
@@ -1455,6 +1468,7 @@ reloadBriefing(true);\r
 
 @media(max-width:420px){.bar{gap:12px}.brand{font-size:27px}nav{gap:10px}nav a{font-size:12px}}
 .reel-deck{height:min(62svh,590px);overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior-y:contain;border-radius:18px;background:#173f35;max-width:620px}.reel{min-height:100%;padding:clamp(18px,4vw,40px);display:flex;flex-direction:column;justify-content:space-between;gap:16px;color:#fff;scroll-snap-align:start;background:linear-gradient(155deg,#184838,#132e2a)}.reel:nth-child(even){background:linear-gradient(145deg,#264754,#18373b)}.reel h2{font-size:clamp(28px,4vw,44px);margin-top:10px}.reel .eyebrow,.reel small{color:#d8e9aa}.reel .actions{margin:0}@media(max-width:700px){.bar{height:auto;flex-wrap:wrap;gap:4px;padding-top:5px}.bar nav{width:100%;justify-content:space-between;gap:4px;padding-bottom:8px;height:auto}.reel p{font-size:14px}}\r
+.immersive{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:#173f35;color:white;height:100dvh;overflow:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}body:has(.immersive){overflow:hidden}.immersive .viewer-back{align-self:flex-start;margin:10px 16px}.immersive .reel-deck{width:100%;max-width:none;height:auto;flex:1;min-height:0;border-radius:0}.immersive .reel{padding-inline:max(22px,calc((100vw - 800px)/2))}.immersive .toolbar{justify-content:center;margin:8px}\r
 `],"/synced.json":["application/json",`[\r
   {\r
     "ticker": "INFY",\r
