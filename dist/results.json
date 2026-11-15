@@ -1,0 +1,31 @@
+{
+  "INFY": [
+    {
+      "metric": "Revenue",
+      "unit": "₹ crore",
+      "current": 40925,
+      "prior": 41764,
+      "yearAgo": 37923,
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/q4-and-12m-fy25-financial-results-auditorsreports.pdf#page=1",
+      "priorSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q3/documents/q3-and-9m-fy25-financial-results-auditorsreports.pdf#page=1"
+    },
+    {
+      "metric": "PBT",
+      "unit": "₹ crore",
+      "current": 9663,
+      "prior": 9670,
+      "yearAgo": 10240,
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/q4-and-12m-fy25-financial-results-auditorsreports.pdf#page=1",
+      "priorSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q3/documents/q3-and-9m-fy25-financial-results-auditorsreports.pdf#page=1"
+    },
+    {
+      "metric": "PAT",
+      "unit": "₹ crore",
+      "current": 7038,
+      "prior": 6822,
+      "yearAgo": 7975,
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/q4-and-12m-fy25-financial-results-auditorsreports.pdf#page=1",
+      "priorSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q3/documents/q3-and-9m-fy25-financial-results-auditorsreports.pdf#page=1"
+    }
+  ]
+}

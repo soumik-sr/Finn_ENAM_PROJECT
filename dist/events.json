@@ -1,0 +1,126 @@
+[
+  {
+    "ticker": "INFY",
+    "company": "Infosys",
+    "date": "2025-04-17",
+    "category": "results",
+    "title": "Revenue growth finished above the original FY25 range",
+    "summary": "Infosys reported 4.2% constant-currency revenue growth and a 21.1% operating margin for FY25.",
+    "significance": "Growth cleared the initial 3% ceiling by 1.2 percentage points. The original forecast excluded the in-tech acquisition, so the difference includes a scope change.",
+    "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/ifrs-usd-press-release.pdf#page=1",
+    "comparisons": [
+      {
+        "metric": "Constant-currency revenue growth",
+        "target": "1%–3% (original outlook, excluding in-tech)",
+        "actual": "4.2% (reported group)",
+        "period": "FY25",
+        "status": "Above original range; scope changed",
+        "guidanceSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/transcripts/earningscall.pdf#page=7",
+        "resultSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/ifrs-usd-press-release.pdf#page=1",
+        "guidanceQuote": "we expect FY ’25 growth to be 1% to 3% in constant currency terms.",
+        "resultQuote": "Revenues in CC terms grew by 4.2% YoY"
+      },
+      {
+        "metric": "Operating margin",
+        "target": "20%–22%",
+        "actual": "21.1%",
+        "period": "FY25",
+        "status": "Within range",
+        "guidanceSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/transcripts/earningscall.pdf#page=7",
+        "resultSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/ifrs-usd-press-release.pdf#page=1",
+        "guidanceQuote": "Our operating margin guidance for the year is 20% to 22%.",
+        "resultQuote": "Operating margin at 21.1%"
+      }
+    ]
+  },
+  {
+    "ticker": "HCLTECH",
+    "company": "HCLTech",
+    "date": "2025-04-22",
+    "category": "results",
+    "title": "FY25 growth and EBIT margin land within guidance",
+    "summary": "Revenue grew 4.7% on a constant-currency basis and EBIT margin reached 18.3% for the year.",
+    "significance": "Both outcomes were within the original ranges. Management set a 2%–5% growth range for the next financial year.",
+    "source": "https://www.hcltech.com/en-us/press-releases/hcltech-delivers-another-year-industry-leading-growth",
+    "comparisons": [
+      {
+        "metric": "Constant-currency revenue growth",
+        "target": "3%–5%",
+        "actual": "4.7%",
+        "period": "FY25",
+        "status": "Within range",
+        "guidanceSource": "https://www.hcltech.com/sites/default/files/document/open/quarter-results/2024-04/HCLTech_Q4_FY24_Investor_Release.pdf#page=3",
+        "resultSource": "https://www.hcltech.com/en-us/press-releases/hcltech-delivers-another-year-industry-leading-growth",
+        "guidanceQuote": "Company CC Revenue growth expected to be between 3.0% - 5.0% YoY",
+        "resultQuote": "revenue growth of 4.7% in constant currency"
+      },
+      {
+        "metric": "EBIT margin",
+        "target": "18%–19%",
+        "actual": "18.3%",
+        "period": "FY25",
+        "status": "Within range",
+        "guidanceSource": "https://www.hcltech.com/sites/default/files/document/open/quarter-results/2024-04/HCLTech_Q4_FY24_Investor_Release.pdf#page=3",
+        "resultSource": "https://www.hcltech.com/en-us/press-releases/hcltech-delivers-another-year-industry-leading-growth",
+        "guidanceQuote": "EBIT margin expected to be between 18.0% - 19.0%",
+        "resultQuote": "EBIT margin of 18.3%"
+      }
+    ]
+  },
+  {
+    "ticker": "WIPRO",
+    "company": "Wipro",
+    "date": "2025-04-16",
+    "category": "results",
+    "title": "IT services revenue falls 0.8% sequentially",
+    "summary": "March-quarter IT services revenue declined 0.8% from December and 1.2% from a year earlier, both in constant currency.",
+    "significance": "The sequential decline was within January guidance, 0.2 percentage points above the bottom of the range.",
+    "source": "https://www.wipro.com/content/dam/nexus/en/investor/quarterly-results/2024-2025/q4fy25/press-release-q4fy25.pdf#page=1",
+    "comparisons": [
+      {
+        "metric": "Sequential IT services revenue growth, constant currency",
+        "target": "−1.0% to +1.0%",
+        "actual": "−0.8%",
+        "period": "Q4 FY25",
+        "status": "Within range",
+        "guidanceSource": "https://www.wipro.com/newsroom/press-releases/2025/wipro-announces-results-for-the-quarter-ended-december-31-2024/",
+        "resultSource": "https://www.wipro.com/content/dam/nexus/en/investor/quarterly-results/2024-2025/q4fy25/press-release-q4fy25.pdf#page=1",
+        "guidanceQuote": "sequential guidance of (-)1.0 % to 1.0 % in constant currency terms.",
+        "resultQuote": "constant currency IT Services segment revenue decreased 0.8% QoQ"
+      }
+    ]
+  },
+  {
+    "ticker": "TCS",
+    "company": "Tata Consultancy Services",
+    "date": "2025-04-10",
+    "category": "results",
+    "title": "March-quarter deal wins reach $12.2 billion",
+    "summary": "TCS reported $12.2 billion of quarterly contract value and $30.18 billion of annual revenue. FY25 operating margin was 24.3%.",
+    "significance": "The quarterly book-to-bill ratio reached 1.6. Deal value measures contracted business, which can convert into revenue over several periods.",
+    "source": "https://www.tcs.com/who-we-are/newsroom/press-release/tcs-financial-results-q4-fy-2025",
+    "comparisons": []
+  },
+  {
+    "ticker": "INFY",
+    "company": "Infosys",
+    "date": "2025-04-17",
+    "category": "M&A",
+    "title": "Infosys agrees to acquire two specialist consultancies",
+    "summary": "The deals value Australian cybersecurity firm The Missing Link at up to A$98 million and US energy specialist MRE Consulting at up to US$36 million, including earn-outs.",
+    "significance": "Both figures are conditional maximums. Management incentives and retention payments fall outside the disclosed consideration.",
+    "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/q4-and-12m-fy25-financial-results-auditorsreports.pdf",
+    "comparisons": []
+  },
+  {
+    "ticker": "WIPRO",
+    "company": "Wipro",
+    "date": "2025-04-17",
+    "category": "routine",
+    "title": "Wipro files copies of newspaper advertisements",
+    "summary": "The company sent the exchanges copies of its advertisements in the Financial Express and Kannada Prabha.",
+    "significance": "Publication confirmation under Regulation 47.",
+    "source": "https://www.wipro.com/content/dam/nexus/en/investor/corporate-governance/stock-exchange-filing/newspaper-advertisement-regulation-47-of-sebi-listing-obligations-and-disclosure-requirements-regulations-2015-17-apr-2025.pdf#page=1",
+    "comparisons": []
+  }
+]
