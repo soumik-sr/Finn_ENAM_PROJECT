@@ -547,8 +547,8 @@ reloadBriefing(true);\r
   }\r
 ]\r
 `],"/index.html":["text/html",`<!doctype html>\r
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#163d32"><title>FINN | Investor briefing</title><link rel="stylesheet" href="style.css"></head><body>\r
-<header><div class="bar"><a class="brand" href="#briefing"><i>\u25A5</i> FINN</a><nav aria-label="Main navigation"><a href="#briefing">Briefing</a><a href="#reels">Watchlist</a><a href="#research">Research</a><a href="#discover">Explore</a><a href="#portfolio">Portfolio</a></nav><span class="avatar" aria-label="Personal workspace">F</span></div></header>\r
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#163d32"><title>FINN | Investor briefing</title><script src="theme.js"><\/script><link rel="stylesheet" href="style.css"></head><body>\r
+<header><div class="bar"><a class="brand" href="#briefing"><i>\u25A5</i> FINN</a><nav aria-label="Main navigation"><a href="#briefing">Briefing</a><a href="#reels">Watchlist</a><a href="#research">Research</a><a href="#discover">Explore</a><a href="#portfolio">Portfolio</a></nav><button id="theme-toggle" aria-label="Dark mode" aria-pressed="false">Dark mode</button></div></header>\r
 <main id="app">Loading briefing\u2026</main><footer>FINN &nbsp; / &nbsp; Investor workspace</footer><script src="app.js" defer><\/script></body></html>\r
 `],"/market.json":["application/json",`[\r
   {\r
@@ -1469,6 +1469,17 @@ reloadBriefing(true);\r
 @media(max-width:420px){.bar{gap:12px}.brand{font-size:27px}nav{gap:10px}nav a{font-size:12px}}
 .reel-deck{height:min(62svh,590px);overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior-y:contain;border-radius:18px;background:#173f35;max-width:620px}.reel{min-height:100%;padding:clamp(18px,4vw,40px);display:flex;flex-direction:column;justify-content:space-between;gap:16px;color:#fff;scroll-snap-align:start;background:linear-gradient(155deg,#184838,#132e2a)}.reel:nth-child(even){background:linear-gradient(145deg,#264754,#18373b)}.reel h2{font-size:clamp(28px,4vw,44px);margin-top:10px}.reel .eyebrow,.reel small{color:#d8e9aa}.reel .actions{margin:0}@media(max-width:700px){.bar{height:auto;flex-wrap:wrap;gap:4px;padding-top:5px}.bar nav{width:100%;justify-content:space-between;gap:4px;padding-bottom:8px;height:auto}.reel p{font-size:14px}}\r
 .immersive{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:#173f35;color:white;height:100dvh;overflow:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}body:has(.immersive){overflow:hidden}.immersive .viewer-back{align-self:flex-start;margin:10px 16px}.immersive .reel-deck{width:100%;max-width:none;height:auto;flex:1;min-height:0;border-radius:0}.immersive .reel{padding-inline:max(22px,calc((100vw - 800px)/2))}.immersive .toolbar{justify-content:center;margin:8px}\r
+#theme-toggle{margin-left:auto;white-space:nowrap;background:#173f35;color:#edf3e9;border-color:#6b8676;font-size:14px;min-height:44px}
+@media(max-width:700px){.bar nav{order:2}}
+[data-theme=dark]{color-scheme:dark}
+[data-theme=dark] body{background:#101a17;color:#e4eee7}
+[data-theme=dark] :is(.card,.panel,aside,details,.financial,th:first-child){background:#1a2c25;color:#e4eee7;border-color:#41584b}
+[data-theme=dark] :is(.lead,aside){background:#213e32}
+[data-theme=dark] :is(.muted,.eyebrow,small,footer,.freshness span){color:#b9caba}
+[data-theme=dark] :is(input,select,button){background:#243a30;color:#eef5ef;border-color:#627968}
+[data-theme=dark] :is(button.selected,button.primary){background:#c7dfa0;color:#172a1c}
+[data-theme=dark] .investigate{background:transparent;color:#d4edab}
+[data-theme=dark] :is(td,th,aside section,.result,.citations li,footer){border-color:#41584b}\r
 `],"/synced.json":["application/json",`[\r
   {\r
     "ticker": "INFY",\r
