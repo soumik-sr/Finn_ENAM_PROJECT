@@ -74,9 +74,20 @@ function discover(){
 function settings(){
  app.innerHTML=intro('WATCHLIST','Your portfolio',portfolio.length+' companies tracked in this browser.')+'<div class="grid"><section class="panel"><h2>Portfolio companies</h2><div class="toolbar">'+portfolio.map(t=>btn(t+' ×','remove',t)).join('')+'</div><form id="add"><input name="ticker" required pattern="[A-Za-z0-9&-]{1,30}" placeholder="NSE ticker" aria-label="Add ticker"><button>Add company</button></form></section><aside><h2>Alert thresholds</h2><form id="limits"><label>Daily move (%) <input type="number" min=".1" step=".1" required name="price" value="'+thresholds[0]+'"></label><label>Volume multiple <input type="number" min=".1" step=".1" required name="volume" value="'+thresholds[1]+'"></label><button>Save thresholds</button><output></output></form></aside></div>';
 }
-function render(){generation++;const page=location.hash.slice(1)||'briefing';document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.hash==='#'+page));({portfolio:settings,research,briefing,discover}[page]||briefing)()}
+function reels(){
+ const rows=events.filter(r=>portfolio.includes(r.ticker)&&inWindow(r)&&!(/routine|compliance|unclassified/i.test(r.category))).sort((a,b)=>b.date.localeCompare(a.date));
+ app.innerHTML=intro('WATCHLIST','List Reels','Swipe up for the next stock update.')+'<div class="toolbar">'+[['snapshot','Earnings snapshot'],['7d','Last 7 days']].map(([v,n])=>btn(n,'reel-period',v,period===v)).join('')+'<a href="#portfolio">Edit watchlist</a></div>';
+ if(!rows.length){app.insertAdjacentHTML('beforeend','<p>No matching updates for this watchlist and time window.</p>');return;}
+ const deck=document.createElement('section');
+ deck.className='reel-deck';deck.tabIndex=0;deck.setAttribute('aria-label','Watchlist reels');
+ deck.innerHTML=rows.map((r,i)=>'<article class="reel"><div class="eyebrow">'+esc(r.ticker)+' · '+esc(r.category)+' · '+(i+1)+' / '+rows.length+'</div><div><small>'+esc(r.date)+'</small><h2>'+esc(r.title)+'</h2><p>'+esc(r.summary)+'</p><p>'+esc(r.significance)+'</p></div><div class="actions">'+link(r.source,'Read filing')+'<button data-action="investigate" data-value="'+esc(r.ticker)+'">Research →</button></div></article>').join('');
+ app.append(deck);
+ const controls=document.createElement('div');controls.className='toolbar';controls.innerHTML='<button>↑ Previous</button><button>Next ↓</button>';app.append(controls);
+ Array.from(controls.children).forEach((button,i)=>button.onclick=()=>deck.scrollBy({top:(i?1:-1)*deck.clientHeight,behavior:'smooth'}));
+}
+function render(){generation++;const page=location.hash.slice(1)||'briefing';document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.hash==='#'+page));({portfolio:settings,research,briefing,discover,reels}[page]||briefing)()}
 window.onhashchange=render;
-app.onclick=e=>{const b=e.target.closest('[data-action]');if(!b)return;let v=b.dataset.value;switch(b.dataset.action){case 'discovery-tab':discoveryTab=v;break;case 'track':portfolio=[...new Set([...portfolio,v])];saved('portfolio',portfolio);break;case 'refresh':reloadBriefing();return;case 'suggest':{const form=document.getElementById('ask');form.elements.question.value=v;form.requestSubmit();return}case 'period':period=v;break;case 'investigate':researchTicker=v;location.hash='research';break;case 'remove':portfolio=portfolio.filter(t=>t!==v);saved('portfolio',portfolio);break;}render()};
+app.onclick=e=>{const b=e.target.closest('[data-action]');if(!b)return;let v=b.dataset.value;switch(b.dataset.action){case 'reel-period':period=v;reels();return;case 'discovery-tab':discoveryTab=v;break;case 'track':portfolio=[...new Set([...portfolio,v])];saved('portfolio',portfolio);break;case 'refresh':reloadBriefing();return;case 'suggest':{const form=document.getElementById('ask');form.elements.question.value=v;form.requestSubmit();return}case 'period':period=v;break;case 'investigate':researchTicker=v;location.hash='research';break;case 'remove':portfolio=portfolio.filter(t=>t!==v);saved('portfolio',portfolio);break;}render()};
 app.onsubmit=async e=>{
  e.preventDefault();const form=e.target,f=new FormData(form),t=String(f.get('ticker')||'').trim().toUpperCase();
  if(form.id==='range'){if(f.get('start')>f.get('end')){form.elements.end.setCustomValidity('Choose an end date on or after the start date.');form.elements.end.reportValidity();form.elements.end.oninput=()=>form.elements.end.setCustomValidity('');return}rangeStart=f.get('start');rangeEnd=f.get('end');render();return}

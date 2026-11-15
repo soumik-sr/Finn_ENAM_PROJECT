@@ -1,5 +1,5 @@
 {
-  "time": "2026-11-15T13:08:55.491Z",
+  "time": "2026-11-15T13:17:57.761Z",
   "target": "https://finn-enam-briefing.dampankle4.chatgpt.site",
   "passed": 16,
   "failed": 0,
@@ -17,91 +17,91 @@
     {
       "name": "Public assets match current build",
       "ok": true,
-      "ms": 1041,
+      "ms": 395,
       "assets": 10
     },
     {
       "name": "Research INFY",
       "ok": true,
-      "ms": 165,
+      "ms": 41,
       "mode": "pre-indexed documents",
       "citations": 4
     },
     {
       "name": "Research TCS",
       "ok": true,
-      "ms": 32,
+      "ms": 31,
       "mode": "pre-indexed documents",
       "citations": 4
     },
     {
       "name": "Research HCLTECH",
       "ok": true,
-      "ms": 36,
+      "ms": 30,
       "mode": "pre-indexed documents",
       "citations": 4
     },
     {
       "name": "Research WIPRO",
       "ok": true,
-      "ms": 52,
+      "ms": 30,
       "mode": "pre-indexed documents",
       "citations": 4
     },
     {
       "name": "Research NVDA",
       "ok": true,
-      "ms": 36,
+      "ms": 31,
       "mode": "pre-indexed documents",
       "citations": 1
     },
     {
       "name": "Research TSLA",
       "ok": true,
-      "ms": 35,
+      "ms": 38,
       "mode": "pre-indexed documents",
       "citations": 1
     },
     {
       "name": "Research AAPL",
       "ok": true,
-      "ms": 46,
+      "ms": 31,
       "mode": "pre-indexed documents",
       "citations": 1
     },
     {
       "name": "Research MSFT",
       "ok": true,
-      "ms": 37,
+      "ms": 30,
       "mode": "pre-indexed documents",
       "citations": 1
     },
     {
       "name": "Research JIO",
       "ok": true,
-      "ms": 37,
+      "ms": 35,
       "mode": "pre-indexed documents",
       "citations": 1
     },
     {
       "name": "Aliases NVIDIA and TESLA",
       "ok": true,
-      "ms": 179
+      "ms": 69
     },
     {
       "name": "Negative grounding across all featured companies",
       "ok": true,
-      "ms": 616
+      "ms": 281
     },
     {
       "name": "API validation and HTTP errors",
       "ok": true,
-      "ms": 444
+      "ms": 509
     },
     {
       "name": "Live discovery → PDF extraction → cited answer PERSISTENT",
       "ok": true,
-      "ms": 669,
+      "ms": 505,
       "mode": "live document discovery",
       "citations": 4,
       "pages": [
@@ -114,7 +114,7 @@
     {
       "name": "Live discovery → PDF extraction → cited answer BEL",
       "ok": true,
-      "ms": 432,
+      "ms": 682,
       "mode": "live document discovery",
       "citations": 4,
       "pages": [
