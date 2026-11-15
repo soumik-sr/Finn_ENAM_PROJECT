@@ -7,7 +7,7 @@ FINN combines an Indian-equity portfolio briefing with research from primary com
 Use Python 3.10 or newer. From this directory run:
 
 ```sh
-python -m pip install pypdf
+python -m pip install -r requirements.txt
 python backend.py --port 8000
 ```
 

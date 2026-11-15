@@ -138,7 +138,7 @@ export default {
       if(request.method!=='POST') return json({error:'Use POST.'},405);
       if(Number(request.headers.get('content-length'))>4096)return json({error:'Question too large.'},413);
       let body;
-      try{const raw=await request.text(); if(raw.length>4096)throw Error(); body=JSON.parse(raw);}catch{return json({error:'Invalid question.'},400)}
+      try{const raw=await request.text(); if(raw.length>4096)return json({error:'Question too large.'},413); body=JSON.parse(raw);}catch{return json({error:'Invalid question.'},400)}
       const rawTicker=String(body?.ticker||'').trim().toUpperCase();
       const ticker=({NVIDIA:'NVDA',NVDIA:'NVDA',TESLA:'TSLA',TESTA:'TSLA',APPLE:'AAPL',MICROSOFT:'MSFT',JPL:'JIO'})[rawTicker]||rawTicker,question=String(body?.question||'').trim();
       if(!/^[A-Z0-9][A-Z0-9&-]{0,24}$/.test(ticker)||question.length<2||question.length>800)return json({error:'Enter an NSE ticker and a question of 2–800 characters.'},422);

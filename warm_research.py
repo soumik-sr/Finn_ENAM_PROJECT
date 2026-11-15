@@ -73,6 +73,10 @@ def main():
     with ThreadPoolExecutor(max_workers=4) as pool:
         companies = dict(pool.map(index_company, SYMBOLS))
     final = ROOT / "dist" / "research-cache.json"
+    # Refresh the Indian showcase index without dropping reviewed global profiles.
+    if final.exists():
+        existing = json.loads(final.read_text(encoding="utf-8")).get("companies", {})
+        companies = {**existing, **companies}
     temp = final.with_suffix(".tmp")
     temp.write_text(json.dumps(dict(version=1, companies=companies), ensure_ascii=False, separators=(",",":")), encoding="utf-8")
     temp.replace(final)

@@ -9,6 +9,7 @@ import re
 import sqlite3
 import time
 from collections import Counter
+from contextlib import closing
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -32,19 +33,20 @@ def fetch(url, limit=24_000_000):
 
 def cached(key, ttl, loader):
     CACHE.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(CACHE / "sources.sqlite3", timeout=15) as db:
+    with closing(sqlite3.connect(CACHE / "sources.sqlite3", timeout=15)) as db, db:
         db.execute("CREATE TABLE IF NOT EXISTS cache(k TEXT PRIMARY KEY, ts REAL, value TEXT)")
         row = db.execute("SELECT ts,value FROM cache WHERE k=?", (key,)).fetchone()
     if row and row[0] + ttl > time.time():
         return json.loads(row[1])
     value = loader()
-    with sqlite3.connect(CACHE / "sources.sqlite3", timeout=15) as db:
+    with closing(sqlite3.connect(CACHE / "sources.sqlite3", timeout=15)) as db, db:
         db.execute("INSERT OR REPLACE INTO cache VALUES (?,?,?)", (key, time.time(), json.dumps(value)))
     return value
 
 
 def ticker(value):
     symbol = str(value).strip().upper().removesuffix(".NS")
+    symbol = {"NVIDIA":"NVDA", "NVDIA":"NVDA", "TESLA":"TSLA", "TESTA":"TSLA", "APPLE":"AAPL", "MICROSOFT":"MSFT", "JPL":"JIO"}.get(symbol, symbol)
     if not re.fullmatch(r"[A-Z0-9][A-Z0-9&-]{0,24}", symbol):
         raise ValueError("Enter a valid NSE symbol.")
     return symbol
@@ -151,6 +153,18 @@ def passages(question, sources):
 def research(symbol, question):
     if not 2 <= len(question) <= 800:
         raise ValueError("Enter a question between 2 and 800 characters.")
+    # The local service shares the hosted reviewed profiles for global issuers.
+    warm_path = ROOT / "dist" / "research-cache.json"
+    if warm_path.exists():
+        warm_rows = json.loads(warm_path.read_text(encoding="utf-8")).get("companies", {}).get(symbol, [])
+        if warm_rows and all(row.get("summary") for row in warm_rows):
+            words = terms(question)
+            required = re.findall(r"\b(?:fy\s*['’]?\s*(?:20)?\d{2}|q[1-4]|20\d{2})\b", question.lower())
+            normalize = lambda s: re.sub(r"[\s'’]", "", s.lower())
+            evidence = [r for r in warm_rows if len(terms(r["text"]) & words) >= math.ceil(len(words)*0.65)
+                        and words and all(normalize(p) in normalize(r["text"]) for p in required)][:4]
+            return dict(ticker=symbol, answer="Reviewed source summaries follow; these are paraphrases, not verbatim quotes." if evidence else MISSING,
+                        mode="reviewed source summaries", evidence=evidence, unavailable=[])
     documents = discover(symbol)
     chosen = [d for d in documents if d["kind"] == "earnings transcript"][:4]
     chosen += [d for d in documents if d["kind"] == "annual report"][:1]
