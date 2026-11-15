@@ -11,7 +11,7 @@ python -m pip install pypdf
 python backend.py --port 8000
 ```
 
-Open http://127.0.0.1:8000. The Python service serves both the mobile interface and the research API. Hosting only the dist directory provides a static snapshot with curated comparisons. Full on-demand research requires the Python service and network access.
+Open http://127.0.0.1:8000. The Python service serves both the mobile interface and the research API. The hosted version uses a JavaScript Worker for the same research interaction. Build it with `node build-worker.mjs` after installing the locked dependencies. Run `python warm_research.py` to regenerate the four featured companies’ page-cited evidence before building.
 
 ## Try it
 
@@ -32,4 +32,27 @@ Evidence search runs without a model key. For model-written synthesis, configure
 
 ## Prototype limits
 
-The five manually reviewed guidance comparisons demonstrate the intended analysis. Automatic four-quarter guidance extraction, OCR, scheduled refresh, and push delivery outside the app are future work. Unreviewed synced filings show exchange metadata. The historical snapshot includes six reviewed disclosures and sixteen companies with market observations.
+The eight manually reviewed guidance comparisons demonstrate the intended analysis. Fully automated guidance extraction, OCR, scheduled refresh, and push delivery outside the app are future work. Unreviewed synced filings show exchange metadata. The historical snapshot includes six reviewed disclosures and sixteen companies with market observations.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    NSE[NSE filings and daily archives] --> Ingest[Local Python ingestion]
+    Prices[Daily closing prices and volume] --> Ingest
+    Ingest --> Snapshot[Versioned briefing data]
+    Snapshot --> UI[Mobile briefing and research]
+    UI --> Alerts[Deterministic price and volume alerts]
+    UI --> Worker[Hosted research API]
+    Worker --> Warm[Featured company evidence]
+    Worker --> Discover[Screener document discovery]
+    Discover --> PDF[Primary PDFs and page extraction]
+    Warm --> Rank[Passage ranking and period matching]
+    PDF --> Rank
+    Rank --> Evidence[Cited excerpts or missing evidence]
+    Evidence --> UI
+    Rank -. local Python option .-> Model[Model synthesis with numbered citations]
+```
+
+The hosted path returns extractive evidence. Financial comparisons and percentage changes use code. Showcase guidance comparisons are reviewed against the issuer disclosures. The local Python service can optionally synthesise retrieved passages with a configured model.
+

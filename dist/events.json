@@ -4,9 +4,9 @@
     "company": "Infosys",
     "date": "2025-04-17",
     "category": "results",
-    "title": "Revenue growth finished above the original FY25 range",
+    "title": "Infosys grew 4.2%, below its final FY25 guidance",
     "summary": "Infosys reported 4.2% constant-currency revenue growth and a 21.1% operating margin for FY25.",
-    "significance": "Growth cleared the initial 3% ceiling by 1.2 percentage points. The original forecast excluded the in-tech acquisition, so the difference includes a scope change.",
+    "significance": "FY25 growth finished 0.3 percentage points below January’s revised floor. The original 1%–3% forecast excluded the in-tech acquisition. Comparing the revisions shows how management’s expectations changed.",
     "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/ifrs-usd-press-release.pdf#page=1",
     "comparisons": [
       {
@@ -18,6 +18,39 @@
         "guidanceSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/transcripts/earningscall.pdf#page=7",
         "resultSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/ifrs-usd-press-release.pdf#page=1",
         "guidanceQuote": "we expect FY ’25 growth to be 1% to 3% in constant currency terms.",
+        "resultQuote": "Revenues in CC terms grew by 4.2% YoY"
+      },
+      {
+        "metric": "Constant-currency revenue growth · Q1 revision",
+        "target": "3%-4%",
+        "period": "FY25 · guidance issued 18 July 2024",
+        "actual": "4.2%",
+        "status": "0.2 percentage points above the upper bound",
+        "guidanceSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q1/documents/ifrs-usd-press-release.pdf#page=1",
+        "resultSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/ifrs-usd-press-release.pdf#page=1",
+        "guidanceQuote": "Revenue growth of 3%-4% in constant currency",
+        "resultQuote": "Revenues in CC terms grew by 4.2% YoY"
+      },
+      {
+        "metric": "Constant-currency revenue growth · Q2 revision",
+        "target": "3.75%-4.50%",
+        "period": "FY25 · guidance issued 17 October 2024",
+        "actual": "4.2%",
+        "status": "Within the revised range",
+        "guidanceSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q2/documents/ifrs-usd-press-release.pdf#page=1",
+        "resultSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/ifrs-usd-press-release.pdf#page=1",
+        "guidanceQuote": "Revenue growth of 3.75%-4.50% in constant currency",
+        "resultQuote": "Revenues in CC terms grew by 4.2% YoY"
+      },
+      {
+        "metric": "Constant-currency revenue growth · Q3 revision",
+        "target": "4.5%-5.0%",
+        "period": "FY25 · guidance issued 16 January 2025",
+        "actual": "4.2%",
+        "status": "0.3 percentage points below the lower bound",
+        "guidanceSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q3/documents/ifrs-usd-press-release.pdf#page=1",
+        "resultSource": "https://www.infosys.com/investors/reports-filings/quarterly-results/2024-2025/q4/documents/ifrs-usd-press-release.pdf#page=1",
+        "guidanceQuote": "Revenue growth of 4.5%-5.0% in constant currency",
         "resultQuote": "Revenues in CC terms grew by 4.2% YoY"
       },
       {
