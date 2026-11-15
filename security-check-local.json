@@ -1,0 +1,48 @@
+{
+  "target": "local",
+  "date": "2026-11-15T13:16:48.440Z",
+  "passed": 10,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Security headers on HTML, JSON and errors",
+      "ok": true
+    },
+    {
+      "name": "Sensitive files and traversal unavailable",
+      "ok": true
+    },
+    {
+      "name": "Cross-site API calls and form submissions blocked",
+      "ok": true
+    },
+    {
+      "name": "URLs, injection-shaped tickers and typed payloads rejected",
+      "ok": true
+    },
+    {
+      "name": "No stack trace or executable answer from adversarial question",
+      "ok": true
+    },
+    {
+      "name": "SSRF host allowlist and redirect rejection",
+      "ok": true
+    },
+    {
+      "name": "Chunked body capped before complete buffering",
+      "ok": true
+    },
+    {
+      "name": "Rate limiter rejects excess requests without fetching documents",
+      "ok": true
+    },
+    {
+      "name": "Cold searches coalesce and concurrency is bounded",
+      "ok": true
+    },
+    {
+      "name": "Browser escapes hostile text and blocks javascript links",
+      "ok": true
+    }
+  ]
+}

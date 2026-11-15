@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+.cache/
+.openai/local/
+node_modules/
+
+.env.*
+!.env.example
+*.sqlite3
+*.sqlite3-*

@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const lock=fs.readFileSync('pnpm-lock.yaml','utf8').split('\nsnapshots:')[0];
+const entries=[...lock.matchAll(/^  ['"]?(.+?)@([^@\s:'"]+)['"]?:\s*$/gm)].map(m=>({package:{ecosystem:'npm',name:m[1]},version:m[2]}));
+const queries=[...new Map(entries.map(x=>[x.package.name+'@'+x.version,x])).values(),{package:{ecosystem:'npm',name:'pdfjs-dist'},version:'4.6.82'},{package:{ecosystem:'PyPI',name:'pypdf'},version:'6.21.4'}];
+const r=await fetch('https://api.osv.dev/v1/querybatch',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({queries})});
+if(!r.ok)throw Error('OSV query failed: '+r.status);
+const d=await r.json();if(d.results?.length!==queries.length)throw Error('Incomplete audit response');
+const findings=d.results.map((v,i)=>({...queries[i],...v})).filter(x=>x.vulns?.length);
+fs.writeFileSync('dependency-audit-lock.json',JSON.stringify({time:new Date().toISOString(),checked:queries.length,findings},null,2));
+console.log(JSON.stringify({checked:queries.length,findings}));if(findings.length)process.exitCode=1;

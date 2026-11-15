@@ -1,0 +1,28 @@
+{
+  "target": "https://finn-enam-briefing.dampankle4.chatgpt.site",
+  "date": "2026-11-15T13:17:54.924Z",
+  "passed": 5,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Security headers on HTML, JSON and errors",
+      "ok": true
+    },
+    {
+      "name": "Sensitive files and traversal unavailable",
+      "ok": true
+    },
+    {
+      "name": "Cross-site API calls and form submissions blocked",
+      "ok": true
+    },
+    {
+      "name": "URLs, injection-shaped tickers and typed payloads rejected",
+      "ok": true
+    },
+    {
+      "name": "No stack trace or executable answer from adversarial question",
+      "ok": true
+    }
+  ]
+}

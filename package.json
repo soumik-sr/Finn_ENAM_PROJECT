@@ -1,0 +1,1 @@
+{"name":"finn-research","private":true,"type":"module","scripts":{"build":"node build-worker.mjs"},"dependencies":{"unpdf":"0.12.1","esbuild":"0.25.12"}}
