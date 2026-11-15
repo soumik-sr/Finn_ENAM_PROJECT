@@ -1,0 +1,33 @@
+{
+  "queries": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "unpdf"
+      },
+      "version": "0.12.1"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "esbuild"
+      },
+      "version": "0.25.12"
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pypdf"
+      },
+      "version": "6.21.4"
+    }
+  ],
+  "results": [
+    {},
+    {},
+    {}
+  ],
+  "bundledPDFJS": {
+    "version": "4.6.82"
+  }
+}

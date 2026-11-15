@@ -12,6 +12,10 @@ import refresh
 import warm_research
 
 class Checks(unittest.TestCase):
+    def test_source_destinations(self):
+        for url in ('https://127.0.0.1/a','https://169.254.169.254/','https://evil.example.com/a','http://www.bseindia.com/a','https://www.bseindia.com.evil.com/a'):
+            with self.assertRaises(ValueError):b.safe_source(url)
+
     def test_cache_refresh_preserves_global_profiles(self):
         with tempfile.TemporaryDirectory(dir='.') as temp:
             root=Path(temp);(root/'dist').mkdir()

@@ -1,5 +1,5 @@
 {
-  "time": "2026-11-15T13:08:00.215Z",
+  "time": "2026-11-15T13:16:48.564Z",
   "target": "built Worker",
   "passed": 14,
   "failed": 0,
@@ -17,41 +17,41 @@
     {
       "name": "Public assets match current build",
       "ok": true,
-      "ms": 24,
+      "ms": 25,
       "assets": 10
     },
     {
       "name": "Research INFY",
       "ok": true,
-      "ms": 2,
+      "ms": 1,
       "mode": "pre-indexed documents",
       "citations": 4
     },
     {
       "name": "Research TCS",
       "ok": true,
-      "ms": 1,
+      "ms": 0,
       "mode": "pre-indexed documents",
       "citations": 4
     },
     {
       "name": "Research HCLTECH",
       "ok": true,
-      "ms": 0,
+      "ms": 1,
       "mode": "pre-indexed documents",
       "citations": 4
     },
     {
       "name": "Research WIPRO",
       "ok": true,
-      "ms": 1,
+      "ms": 0,
       "mode": "pre-indexed documents",
       "citations": 4
     },
     {
       "name": "Research NVDA",
       "ok": true,
-      "ms": 0,
+      "ms": 1,
       "mode": "pre-indexed documents",
       "citations": 1
     },
@@ -72,7 +72,7 @@
     {
       "name": "Research MSFT",
       "ok": true,
-      "ms": 0,
+      "ms": 1,
       "mode": "pre-indexed documents",
       "citations": 1
     },
@@ -86,12 +86,12 @@
     {
       "name": "Aliases NVIDIA and TESLA",
       "ok": true,
-      "ms": 0
+      "ms": 1
     },
     {
       "name": "Negative grounding across all featured companies",
       "ok": true,
-      "ms": 3
+      "ms": 2
     },
     {
       "name": "API validation and HTTP errors",

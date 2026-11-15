@@ -15,16 +15,32 @@ from html.parser import HTMLParser
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, quote, urljoin, urlparse
-from urllib.request import Request, urlopen
+from urllib.request import Request, urlopen, build_opener, HTTPRedirectHandler
 
 ROOT = Path(__file__).resolve().parent
 CACHE = Path(os.getenv("FINN_CACHE", str(Path.home() / ".cache" / "finn")))
 HEADERS = {"User-Agent": "FINN-Research/1.0 (financial disclosure reader)", "Accept": "*/*"}
 MISSING = "Not disclosed in the available indexed evidence."
+SOURCE_HOSTS = {"www.screener.in", "www.bseindia.com", "nsearchives.nseindia.com", "archives.nseindia.com", "www.nseindia.com", "www.ril.com", "investor.nvidia.com", "www.sec.gov", "www.apple.com", "www.microsoft.com", "query1.finance.yahoo.com"}
+
+
+def safe_source(url):
+    parsed = urlparse(url)
+    if parsed.scheme != "https" or parsed.hostname not in SOURCE_HOSTS or parsed.username or parsed.password or parsed.port not in (None,443):
+        raise ValueError("Unsupported source location.")
+    return url
+
+
+class SafeRedirect(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        safe_source(newurl)
+        if urlparse(req.full_url).hostname != urlparse(newurl).hostname:
+            raise ValueError("Cross-host document redirects are not allowed.")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
 def fetch(url, limit=24_000_000):
-    with urlopen(Request(url, headers=HEADERS), timeout=12) as response:
+    with build_opener(SafeRedirect()).open(Request(safe_source(url), headers=HEADERS), timeout=12) as response:
         data = response.read(limit + 1)
     if len(data) > limit:
         raise ValueError("Source exceeds document size limit.")
@@ -80,7 +96,9 @@ class DocumentLinks(HTMLParser):
             link, pieces = self.anchor
             label = " ".join(" ".join(pieces).split())
             self.anchor = None
-            if urlparse(link).scheme != "https":
+            try:
+                safe_source(link)
+            except ValueError:
                 return
             if "annual report" in self.section and label:
                 self.links.append(dict(title=label, url=link, kind="annual report"))
@@ -233,6 +251,23 @@ def filings(symbol):
 
 
 class Handler(SimpleHTTPRequestHandler):
+    server_version = "FINN"
+    sys_version = ""
+
+    def end_headers(self):
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'self'")
+        super().end_headers()
+
+    def safe_client(self):
+        expected = {"127.0.0.1:"+str(self.server.server_port), "localhost:"+str(self.server.server_port)}
+        if self.headers.get("Host") not in expected:
+            self.output(403, dict(error="Invalid local host."));return False
+        origin = self.headers.get("Origin")
+        if origin and origin not in {"http://"+host for host in expected}:
+            self.output(403, dict(error="Cross-origin requests are not allowed."));return False
+        return True
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(ROOT / "dist"), **kwargs)
 
@@ -245,9 +280,12 @@ class Handler(SimpleHTTPRequestHandler):
         self.wfile.write(data)
 
     def do_GET(self):
+        if not self.safe_client():return
         parsed = urlparse(self.path)
         routes = {"/api/market":market, "/api/filings":filings, "/api/documents":discover}
         if parsed.path not in routes:
+            if parsed.path not in {"/", "/index.html", "/app.js", "/style.css", "/coverage.json", "/events.json", "/synced.json", "/market.json", "/results.json", "/research-cache.json"}:
+                return self.output(404, dict(error="Not found."))
             return super().do_GET()
         try:
             self.output(200,routes[parsed.path](ticker(parse_qs(parsed.query).get("ticker",[""])[0])))
@@ -256,14 +294,25 @@ class Handler(SimpleHTTPRequestHandler):
         except Exception:
             self.output(502,dict(error="The upstream source could not supply usable data."))
 
+    def do_HEAD(self):
+        if not self.safe_client():return
+        if urlparse(self.path).path not in {"/", "/index.html", "/app.js", "/style.css", "/coverage.json", "/events.json", "/synced.json", "/market.json", "/results.json", "/research-cache.json"}:
+            self.send_response(404);self.end_headers();return
+        super().do_HEAD()
+
     def do_POST(self):
+        if not self.safe_client():return
         if self.path != "/api/research":
             return self.output(404,dict(error="Unknown endpoint."))
+        if self.headers.get_content_type() != "application/json":
+            return self.output(415,dict(error="Use application/json."))
         try:
             length = int(self.headers.get("Content-Length",0))
             if not 0 < length <= 8192:
                 return self.output(413,dict(error="Invalid request size."))
             payload = json.loads(self.rfile.read(length))
+            if not isinstance(payload,dict) or not isinstance(payload.get("ticker"),str) or not isinstance(payload.get("question"),str):
+                raise ValueError("Ticker and question must be strings.")
             self.output(200,research(ticker(payload["ticker"]),str(payload["question"]).strip()))
         except (ValueError, KeyError, TypeError) as exc:
             self.output(422,dict(error=str(exc)))

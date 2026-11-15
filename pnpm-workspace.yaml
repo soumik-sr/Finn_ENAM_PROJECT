@@ -1,3 +1,5 @@
 allowBuilds:
   canvas: false
   esbuild: true
+overrides:
+  'unpdf>canvas': '-'

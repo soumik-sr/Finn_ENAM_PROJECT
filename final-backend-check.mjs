@@ -38,8 +38,8 @@ await check('Negative grounding across all featured companies',async()=>{for(con
 await check('API validation and HTTP errors',async()=>{
  for(const body of [null,{},[],{ticker:'../secrets',question:'revenue'},{ticker:'NVDA',question:'x'},{ticker:'NVDA',question:'x'.repeat(801)}])assert.equal((await post(body)).status,422,JSON.stringify(body));
  assert.equal((await request('/api/research',{method:'GET'})).status,405);
- assert.equal((await request('/api/research',{method:'POST',body:'{bad'})).status,400);
- assert.equal((await request('/api/research',{method:'POST',body:'x'.repeat(5000)})).status,413);
+ assert.equal((await request('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},body:'{bad'})).status,400);
+ assert.equal((await request('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},body:'x'.repeat(5000)})).status,413);
  assert.equal((await request('/does-not-exist')).status,404);
  assert.equal((await request('/.git/config')).status,404);
  assert.equal((await request('/',{method:'HEAD'})).status,200);
