@@ -139,12 +139,13 @@ export default {
       if(Number(request.headers.get('content-length'))>4096)return json({error:'Question too large.'},413);
       let body;
       try{const raw=await request.text(); if(raw.length>4096)throw Error(); body=JSON.parse(raw);}catch{return json({error:'Invalid question.'},400)}
-      const ticker=String(body?.ticker||'').trim().toUpperCase(),question=String(body?.question||'').trim();
+      const rawTicker=String(body?.ticker||'').trim().toUpperCase();
+      const ticker=({NVIDIA:'NVDA',NVDIA:'NVDA',TESLA:'TSLA',TESTA:'TSLA',APPLE:'AAPL',MICROSOFT:'MSFT',JPL:'JIO'})[rawTicker]||rawTicker,question=String(body?.question||'').trim();
       if(!/^[A-Z0-9][A-Z0-9&-]{0,24}$/.test(ticker)||question.length<2||question.length>800)return json({error:'Enter an NSE ticker and a question of 2–800 characters.'},422);
       try{
         const {rows,origin}=await passages(ticker);
         const evidence=rank(question,rows);
-        return json({ticker,mode:origin,answer:evidence.length?'Relevant excerpts from the indexed company documents follow.':'Not disclosed in the available indexed evidence.',evidence});
+        return json({ticker,mode:origin,answer:evidence.length?'Relevant indexed evidence follows. Entries marked as reviewed source summaries are paraphrases, not verbatim quotes.':'Not disclosed in the available indexed evidence.',evidence});
       }catch(err){return json({error:err.message||'Document discovery unavailable.'},502)}
     }
     const asset=assets[url.pathname==='/'?'/index.html':url.pathname];

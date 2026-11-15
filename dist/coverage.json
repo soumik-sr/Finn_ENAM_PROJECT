@@ -1,0 +1,172 @@
+{
+  "reviewedAt": "2026-11-15",
+  "companies": [
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA",
+      "exchange": "NASDAQ",
+      "period": "Q2 FY27 · ended 26 Jul 2026",
+      "date": "2026-08-26",
+      "source": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Second-Quarter-Fiscal-2027/default.aspx",
+      "summary": "Revenue reached USD 96.221bn, 106% above the year-earlier quarter. GAAP gross margin was 75.0%.",
+      "facts": [
+        "Revenue growth: Q2 FY27 sales were USD 96.221bn, up 106% year over year and 18% sequentially.",
+        "Data Center revenue: USD 89.0bn in Q2 FY27, up 117% year over year.",
+        "Revenue guidance: Q3 FY27 outlook was USD 108bn, with a 2% range either side; it excluded China Data Center compute sales."
+      ]
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla",
+      "exchange": "NASDAQ",
+      "period": "Q2 2026 · selected filing",
+      "date": "2026-07-22",
+      "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm",
+      "summary": "Revenue was USD 28.236bn, up 26% year over year. GAAP operating margin was 1.4%; free cash flow was negative USD 1.092bn.",
+      "facts": [
+        "Revenue growth: Q2 2026 sales were USD 28.236bn versus USD 22.496bn a year earlier, a 26% increase.",
+        "Operating margin: Q2 2026 GAAP operating margin was 1.4%, versus 4.1% in Q2 2025.",
+        "Free cash flow: Q2 2026 recorded negative USD 1.092bn. Vehicle deliveries totalled 480,126."
+      ]
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "exchange": "NASDAQ",
+      "period": "Q4 FY26 · ended 26 Sep 2026",
+      "date": "2026-11-02",
+      "source": "https://www.apple.com/newsroom/2026/11/apple-reports-fourth-quarter-results/",
+      "summary": "Revenue was USD 114.5bn, up 12% year over year. Diluted EPS was USD 2.10, including USD 0.05 from tariff refunds.",
+      "facts": [
+        "Revenue growth: Q4 FY26 revenue totalled USD 114.5bn, a 12% year-over-year increase.",
+        "Gross margin: Q4 FY26 margin was 47.9%, including about one percentage point of benefit from tariff refunds.",
+        "Earnings per share: Q4 FY26 diluted EPS was USD 2.10, including USD 0.05 from tariff refunds."
+      ]
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "exchange": "NASDAQ",
+      "period": "Q1 FY27 · ended 30 Sep 2026",
+      "date": "2026-10-28",
+      "source": "https://www.microsoft.com/en-us/investor/earnings/fy-2027-q1/press-release-webcast",
+      "summary": "Revenue was USD 92.3bn, up 19% year over year. Operating income was USD 45.9bn; Microsoft Cloud revenue was USD 63.9bn.",
+      "facts": [
+        "Revenue growth: Q1 FY27 sales totalled USD 92.3bn, a 19% year-over-year increase.",
+        "Operating income: Q1 FY27 operating income was USD 45.9bn, up 21% year over year.",
+        "Cloud revenue: Microsoft Cloud generated USD 63.9bn in Q1 FY27, up 30% year over year."
+      ]
+    },
+    {
+      "ticker": "JIO",
+      "name": "Jio Platforms",
+      "exchange": "India · IPO disclosures",
+      "period": "IPO issue-price disclosure · 24 Oct 2026",
+      "date": "2026-10-24",
+      "source": "https://www.ril.com/sites/default/files/2026-10/RIL_SE_241026.pdf",
+      "summary": "The issuer disclosure confirms subscriptions closed on 23 October and an issue price of INR 1,119. This is an IPO price, not a current market quote.",
+      "facts": [
+        "IPO issue price: Jio Platforms finalised INR 1,119 per share on 24 October 2026.",
+        "IPO subscription dates: the offer opened on 21 October 2026 and closed on 23 October 2026. Listing status requires a separate exchange notice."
+      ]
+    }
+  ],
+  "ipos": [
+    {
+      "name": "T.C. Terrytex Limited",
+      "status": "Draft offer under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Gaurik Fashions Limited",
+      "status": "Draft offer under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Sky Alloys and Power Limited",
+      "status": "Draft offer under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Innoterra Limited",
+      "status": "Draft offer under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Course5 Intelligence Limited",
+      "status": "Pre-filing under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Renfra Energy India Limited",
+      "status": "Draft offer under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Pristine Logistics & Infraprojects Limited",
+      "status": "Pre-filing under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Beauty Garage Limited",
+      "status": "Draft offer under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Advanced Sys-Tek Limited",
+      "status": "Draft offer under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Assetz Limited",
+      "status": "Pre-filing under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "Svatantra Microfin Limited",
+      "status": "Draft offer under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    },
+    {
+      "name": "India Exposition Mart Limited",
+      "status": "Draft offer under SEBI processing",
+      "source": "https://www.sebi.gov.in/sebi_data/attachdocs/nov-2026/1794567970546.pdf",
+      "sourceDate": "2026-11-13",
+      "page": 1,
+      "notes": "Issue dates and price band are not established by this processing report."
+    }
+  ]
+}

@@ -6,6 +6,7 @@ const defaults = 'INFY TCS HCLTECH WIPRO RELIANCE HDFCBANK ICICIBANK LT TITAN TR
 let portfolio = JSON.parse(localStorage.getItem('finn.portfolio') || 'null') || defaults;
 let thresholds = JSON.parse(localStorage.getItem('finn.thresholds') || '[5,2]');
 let rangeStart='2025-04-10', rangeEnd='2025-04-22';
+let coverage={companies:[],ipos:[]}, discoveryTab='companies';
 let events=[], market=[], quarterly={}, period='snapshot', researchTicker='INFY', generation=0;
 const saved = (key,value) => localStorage.setItem('finn.'+key,JSON.stringify(value));
 const btn = (name,action,value,selected=false) => '<button data-action="'+action+'" data-value="'+esc(value)+'" class="'+(selected?'selected':'')+'">'+esc(name)+'</button>';
@@ -62,19 +63,24 @@ function evidence(c){
  return '<div class="result"><small>'+esc(c.period)+'</small><h3>'+esc(c.metric)+'</h3><p>Guidance <b>'+esc(c.target)+'</b><br>Actual <b>'+esc(c.actual)+'</b></p><p>'+esc(c.status)+'</p><details><summary>View evidence</summary><div class="quote-pair">'+quotedClaim('Original guidance',c.guidanceQuote,c.guidanceSource)+quotedClaim('Reported result',c.resultQuote,c.resultSource)+'</div></details></div>';
 }
 function research(){
- const rows=events.filter(r=>r.ticker===researchTicker);const comps=rows.flatMap(r=>r.comparisons||[]);
- app.innerHTML=intro('PRIMARY SOURCE RESEARCH','Company research','Investigate a company and inspect the evidence behind its numbers.')+'<form id="lookup"><input name="ticker" aria-label="NSE ticker" required maxlength="25" pattern="[a-zA-Z0-9][a-zA-Z0-9&amp;\\-]{0,24}" value="'+esc(researchTicker)+'"><button class="primary">Open company</button></form><div class="toolbar">'+['INFY','TCS','HCLTECH','WIPRO'].map(t=>btn(t,'investigate',t,t===researchTicker)).join('')+'</div><div class="grid"><section class="panel"><div class="eyebrow">'+esc(researchTicker)+'</div><h2>Ask a research question</h2><form id="ask"><input name="question" aria-label="Research question" minlength="2" maxlength="800" placeholder="What did management guide for?" required><button class="primary">Ask</button></form><div class="toolbar">'+btn('What was revenue growth?','suggest','What was revenue growth?')+'</div><div id="answer" role="status"></div></section><aside><div class="eyebrow">DOCUMENT LIBRARY</div><h2>Company disclosures</h2>'+ (rows.filter(r=>r.comparisons?.length || !r.timestamp).map(r=>'<section>'+link(r.source,r.title+' · '+r.date)+'</section>').join('')||'Ask a question to search reports and transcripts.')+'</aside></div><section class="panel"><h2>Promises vs performance</h2>'+(comps.map(evidence).join('')||'No verified comparison stored for this company.')+'</section>';
+ const profile=coverage.companies.find(c=>c.ticker===researchTicker);const rows=events.filter(r=>r.ticker===researchTicker);const comps=rows.flatMap(r=>r.comparisons||[]);
+ app.innerHTML=intro('PRIMARY SOURCE RESEARCH','Company research','Investigate a company and inspect the evidence behind its numbers.')+'<form id="lookup"><input name="ticker" aria-label="Company ticker (India or featured US company)" required maxlength="25" pattern="[a-zA-Z0-9][a-zA-Z0-9&amp;\\-]{0,24}" value="'+esc(researchTicker)+'"><button class="primary">Open company</button></form><div class="toolbar">'+['INFY','TCS','HCLTECH','WIPRO',...coverage.companies.map(c=>c.ticker)].map(t=>btn(t,'investigate',t,t===researchTicker)).join('')+'</div>'+(profile?'<section class="panel"><small>'+esc(profile.exchange)+' · '+esc(profile.period)+' · filed '+esc(profile.date)+'</small><h2>'+esc(profile.name)+'</h2><p>'+esc(profile.summary)+'</p>'+link(profile.source,'Source disclosure')+'</section>':'')+'<div class="grid"><section class="panel"><div class="eyebrow">'+esc(researchTicker)+'</div><h2>Ask a research question</h2><form id="ask"><input name="question" aria-label="Research question" minlength="2" maxlength="800" placeholder="What did management guide for?" required><button class="primary">Ask</button></form><div class="toolbar">'+btn('What was revenue growth?','suggest','What was revenue growth?')+'</div><div id="answer" role="status"></div></section><aside><div class="eyebrow">DOCUMENT LIBRARY</div><h2>Company disclosures</h2>'+ (rows.filter(r=>r.comparisons?.length || !r.timestamp).map(r=>'<section>'+link(r.source,r.title+' · '+r.date)+'</section>').join('')||'Ask a question to search reports and transcripts.')+'</aside></div><section class="panel"><h2>Promises vs performance</h2>'+(comps.map(evidence).join('')||'No verified comparison stored for this company.')+'</section>';
 }
+
+function discover(){
+ app.innerHTML=intro('EXPLORE THE MARKET','Companies & IPO watch','Verified disclosures, global companies and the next market entrants.')+'<div class="toolbar">'+btn('Company directory','discovery-tab','companies',discoveryTab==='companies')+btn('IPO watch · '+coverage.ipos.length,'discovery-tab','ipos',discoveryTab==='ipos')+'</div><p class="muted">Reviewed '+esc(coverage.reviewedAt)+' · Selected filings, not live prices. Each company retains its own reporting period.</p>'+(discoveryTab==='companies'?'<div class="grid"><section>'+coverage.companies.map(c=>'<article class="card"><div class="eyebrow">'+esc(c.exchange)+' / '+esc(c.ticker)+'</div><h2>'+esc(c.name)+'</h2><small>'+esc(c.period)+' · '+esc(c.date)+'</small><p>'+esc(c.summary)+'</p><div class="actions">'+link(c.source,'Original disclosure')+btn('Research →','investigate',c.ticker)+btn(portfolio.includes(c.ticker)?'Following':'Follow','track',c.ticker,portfolio.includes(c.ticker))+'</div></article>').join('')+'</section><aside><h2>Coverage at a glance</h2><p>16 Indian portfolio companies plus 5 new company profiles. Nine companies now have pre-indexed research evidence.</p><p>Featured US companies use issuer disclosures. Other typed tickers use Indian document discovery.</p><p>Following a company saves it to your browser watchlist. It does not create price alerts when market observations are unavailable.</p></aside></div>':'<section class="panel"><h2>Indian IPO pipeline</h2><p>SEBI processing is a filing stage, not approval or a confirmed listing date. Jio’s October offer has already closed, so it is shown in the company directory.</p><p>Snapshot from 13 November 2026. The scheduled monitor reports updates in chat; this page shows its stated review date.</p>'+coverage.ipos.map(c=>'<article class="result"><h3>'+esc(c.name)+'</h3><strong>'+esc(c.status)+'</strong><p>'+esc(c.notes)+'</p>'+link(c.source+'#page='+c.page,'SEBI report · '+c.sourceDate)+'</article>').join('')+'</section>');
+}
+
 function settings(){
  app.innerHTML=intro('WATCHLIST','Your portfolio',portfolio.length+' companies tracked in this browser.')+'<div class="grid"><section class="panel"><h2>Portfolio companies</h2><div class="toolbar">'+portfolio.map(t=>btn(t+' ×','remove',t)).join('')+'</div><form id="add"><input name="ticker" required pattern="[A-Za-z0-9&-]{1,30}" placeholder="NSE ticker" aria-label="Add ticker"><button>Add company</button></form></section><aside><h2>Alert thresholds</h2><form id="limits"><label>Daily move (%) <input type="number" min=".1" step=".1" required name="price" value="'+thresholds[0]+'"></label><label>Volume multiple <input type="number" min=".1" step=".1" required name="volume" value="'+thresholds[1]+'"></label><button>Save thresholds</button><output></output></form></aside></div>';
 }
-function render(){generation++;const page=location.hash.slice(1)||'briefing';document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.hash==='#'+page));({portfolio:settings,research,briefing}[page]||briefing)()}
+function render(){generation++;const page=location.hash.slice(1)||'briefing';document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.hash==='#'+page));({portfolio:settings,research,briefing,discover}[page]||briefing)()}
 window.onhashchange=render;
-app.onclick=e=>{const b=e.target.closest('[data-action]');if(!b)return;let v=b.dataset.value;switch(b.dataset.action){case 'refresh':reloadBriefing();return;case 'suggest':{const form=document.getElementById('ask');form.elements.question.value=v;form.requestSubmit();return}case 'period':period=v;break;case 'investigate':researchTicker=v;location.hash='research';break;case 'remove':portfolio=portfolio.filter(t=>t!==v);saved('portfolio',portfolio);break;}render()};
+app.onclick=e=>{const b=e.target.closest('[data-action]');if(!b)return;let v=b.dataset.value;switch(b.dataset.action){case 'discovery-tab':discoveryTab=v;break;case 'track':portfolio=[...new Set([...portfolio,v])];saved('portfolio',portfolio);break;case 'refresh':reloadBriefing();return;case 'suggest':{const form=document.getElementById('ask');form.elements.question.value=v;form.requestSubmit();return}case 'period':period=v;break;case 'investigate':researchTicker=v;location.hash='research';break;case 'remove':portfolio=portfolio.filter(t=>t!==v);saved('portfolio',portfolio);break;}render()};
 app.onsubmit=async e=>{
  e.preventDefault();const form=e.target,f=new FormData(form),t=String(f.get('ticker')||'').trim().toUpperCase();
  if(form.id==='range'){if(f.get('start')>f.get('end')){form.elements.end.setCustomValidity('Choose an end date on or after the start date.');form.elements.end.reportValidity();form.elements.end.oninput=()=>form.elements.end.setCustomValidity('');return}rangeStart=f.get('start');rangeEnd=f.get('end');render();return}
- if(form.id==='lookup'){researchTicker=t;render();return}
+ if(form.id==='lookup'){researchTicker=({NVIDIA:'NVDA',NVDIA:'NVDA',TESLA:'TSLA',TESTA:'TSLA',APPLE:'AAPL',MICROSOFT:'MSFT',JPL:'JIO'})[t]||t;render();return}
  if(form.id==='add'){portfolio=[...new Set([...portfolio,t])];saved('portfolio',portfolio);render();return}
  if(form.id==='limits'){thresholds=[Number(f.get('price')),Number(f.get('volume'))];saved('thresholds',thresholds);form.querySelector('output').textContent='Saved';return}
  await askQuestion(String(f.get('question')).trim(),form);
@@ -99,7 +105,7 @@ async function askQuestion(question,form) {
    const page=Number(item.page);
    const source=String(item.url||'').split('#')[0]+(page>0?'#page='+page:'');
    const label='['+(index+1)+'] '+(item.title||'Original disclosure')+(page>0?' · p. '+page:'');
-   return '<li><blockquote>'+esc(item.text)+'</blockquote>'+link(source,label)+'</li>';
+   return '<li>'+(item.summary?'<small>Reviewed source summary · '+esc(item.sourceDate)+'</small>':'')+'<blockquote>'+esc(item.text)+'</blockquote>'+link(source,label)+'</li>';
   }).join('');
   out.innerHTML='<div class="result"><p>'+esc(data.answer)+'</p>'+(sources?'<ol class="citations">'+sources+'</ol>':'')+'</div>';
   if(data.unavailable?.length)out.insertAdjacentHTML('beforeend','<p class="muted">'+data.unavailable.length+' source documents could not be indexed.</p>');
@@ -114,8 +120,8 @@ async function reloadBriefing(initial=false) {
  refreshing=true;
  if(!initial){refreshMessage='Checking stored files…';briefing();}
  try {
-  const [core,prices,synced,figures]=await Promise.all(['events','market','synced','results'].map(name=>readJSON(name+'.json')));
-  events=[...core,...synced]; market=prices; quarterly=figures;
+  const [core,prices,synced,figures,directory]=await Promise.all(['events','market','synced','results','coverage'].map(name=>readJSON(name+'.json')));
+  events=[...core,...synced]; market=prices; quarterly=figures; coverage=directory;
   refreshMessage=initial?'':'Stored data reloaded.';
  } catch {
   refreshMessage='Could not reload data. Your last briefing is still visible.';

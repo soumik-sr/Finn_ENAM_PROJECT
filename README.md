@@ -56,3 +56,10 @@ flowchart LR
 
 The hosted path returns extractive evidence. Financial comparisons and percentage changes use code. Showcase guidance comparisons are reviewed against the issuer disclosures. The local Python service can optionally synthesise retrieved passages with a configured model.
 
+
+## Expanded coverage · 15 November 2026
+Explore contains NVIDIA, Tesla, Apple, Microsoft and Jio Platforms profiles with dated primary sources. These five add to the 16-company Indian portfolio. Nine companies have pre-indexed research evidence. New entries are explicitly marked reviewed source summaries, not verbatim extracts; their currencies and reporting periods are preserved. These are selected disclosures, not a live price feed.
+
+The IPO tab records 12 candidates from the 13 November 2026 SEBI processing report. Processing is not regulatory approval or a confirmed issue date. Jio’s closed October offer is excluded from upcoming candidates. A separate chat automation monitors official announcements on Monday, Wednesday and Friday mornings; it does not write to the website.
+
+Validate expanded coverage with `node check-coverage.mjs` after `node build-worker.mjs`.
